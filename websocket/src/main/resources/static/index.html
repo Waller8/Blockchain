@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="css/pb.css"/>
+    <script src="js/jquery-1.12.4.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/pb.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/jsrsasign-all-min.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+<div style="margin-left: 20px;margin-right: 20px">
+
+    <!--输入框-->
+    <div class="form-group">
+        <label>请输入内容</label>
+        <input type="text" class="form-control" id="inputContent">
+    </div>
+    <div class="btn-group btn-group-lg">
+        <button type="button" class="btn btn-default" onclick="regist()">注册节点</button>
+        <button type="button" class="btn btn-default" onclick="conn()">连接</button>
+        <button type="button" class="btn btn-default" onclick="broadcast()">广播</button>
+    </div>
+    <p class="bg-success" id="result"></p>
+</div>
+</body>
+
+<script type="text/javascript">
+    // 1.添加完数据以后清空输入框
+    // 2.页面打开以后,就直接展示所有的数据
+
+    // 添加封面
+    function regist() {
+        loading.baosight.showPageLoadingMsg(false); // 显示进度条
+        //1.获取输入的内容
+        var content = $("#inputContent").val(); //后面括号没有参数就是获取,有了参数就是赋值
+        //2.发起异步请求
+        $.post(
+            "regist",   //地址
+            "port=" + content, //传递的数据
+            function (data) {
+                $("#result").html(data);
+                //情况输入框
+                $("#inputContent").val("");
+                loading.baosight.hidePageLoadingMsg() // 隐藏进度条
+            });
+    }
+
+    function conn() {
+        loading.baosight.showPageLoadingMsg(false) // 显示进度条
+        //2.发起异步请求
+        $.post(
+            "conn",   //地址
+            function (data) {
+                $("#result").html(data);
+                loading.baosight.hidePageLoadingMsg() // 隐藏进度条
+            });
+    }
+
+    function broadcast() {
+        loading.baosight.showPageLoadingMsg(false); // 显示进度条
+        //1.获取输入的内容
+        var content = $("#inputContent").val(); //后面括号没有参数就是获取,有了参数就是赋值
+        //2.发起异步请求
+        $.post(
+            "broadcast",   //地址
+            "msg=" + content, //传递的数据
+            function (data) {
+                $("#result").html(data);
+                //情况输入框
+                $("#inputContent").val("");
+                loading.baosight.hidePageLoadingMsg() // 隐藏进度条
+            });
+    }
+</script>
+</html>
